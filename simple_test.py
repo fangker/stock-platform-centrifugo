@@ -1,27 +1,34 @@
 # coding:utf-8
 
+# 错误的方式: from centrifugo_qmt import configure, init as centrifugo_init
+# 正确的方式: 从 centrifugo 包导入
 import sys
 import os
 import time
 from datetime import datetime
 
-from stock_platform_sdk import configure, init as centrifugo_init, MockContextInfo
+# 确保可以找到包
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# 方法1: 从 centrifugo 包导入（推荐）
+from centrifugo import configure, init as centrifugo_init, MockContextInfo
 
 # 步骤 1: 配置连接参数
 configure(
     access_key="1234567",  # 替换为你的 access_key
     secret_key="1234567",  # 替换为你的 secret_key
     strategy_name="default",  # 策略名称
-    backend_url="https://api-stock-dev.feedchickens.com",      # 可选，默认从 config.py 读取
-    centrifugo_url="https://ws-stock-dev.feedchickens.com"    # 可选，默认从 config.py 读取
+    backend_url="http://localhost:8888",      # 可选，默认从 config.py 读取
+    centrifugo_url="http://localhost:8000"    # 可选，默认从 config.py 读取
 )
 
 # 步骤 2: 定义初始化函数（QMT 策略入口）
 def init(C):
-    import stock_platform_sdk
+
+    import centrifugo
 
     # 注册定时任务回调函数
-    C.register_callback("process_centrifugo_messages", stock_platform_sdk.process_centrifugo_messages)
+    C.register_callback("process_centrifugo_messages", centrifugo.process_centrifugo_messages)
 
     print("Initializing Centrifugo QMT SDK...")
 
@@ -56,14 +63,14 @@ if __name__ == "__main__":
     
     # 检查是否有 WebSocket 客户端
     try:
-        import stock_platform_sdk.centrifugo_qmt as centrifugo_qmt
-        import stock_platform_sdk
+        import centrifugo.centrifugo_qmt as centrifugo_qmt
+        import centrifugo
 
         ws_client = centrifugo_qmt.ws_client
 
         # 获取配置检查
         try:
-            config = stock_platform_sdk.get_config()
+            config = centrifugo.get_config()
             if config:
                 print(f"\nConfig info:")
                 print(f"  Backend URL: {config.backend_url}")

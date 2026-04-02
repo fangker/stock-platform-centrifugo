@@ -5,7 +5,6 @@ Centrifugo QMT SDK - 核心实现
 """
 import threading
 import queue
-import asyncio
 import time
 from datetime import datetime
 
@@ -75,18 +74,22 @@ class CentrifugoWebSocketThread:
         """
         在后台线程中运行异步事件循环，带自动重连机制
         """
+        import asyncio
+
         while self._running:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
             try:
-                asyncio.run(self._connect_and_listen())
+                loop.run_until_complete(self._connect_and_listen())
             except Exception as e:
                 if self._running:
                     print(f"WebSocket 连接异常: {e}")
                     print("5 秒后尝试重新连接...")
                     time.sleep(5)
-                    # 继续循环，重新连接
                 else:
-                    # 主动停止，退出循环
                     break
+            finally:
+                loop.close()
 
     async def _connect_and_listen(self):
         """
@@ -101,7 +104,8 @@ class CentrifugoWebSocketThread:
         self.handler = create_websocket_handler(
             self.config.access_key,
             self.config.secret_key,
-            self.config.strategy_name
+            self.config.strategy_name,
+            config=self.config
         )
 
         # 连接服务器
@@ -133,6 +137,7 @@ class CentrifugoWebSocketThread:
 
         # 持续监听
         while self._running and self.handler.is_connected:
+            import asyncio
             await asyncio.sleep(0.1)
 
         # 连接断开

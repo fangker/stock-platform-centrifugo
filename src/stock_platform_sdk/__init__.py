@@ -36,38 +36,42 @@ def get_config():
     return _config
 
 
-# Export all public interfaces
-from .centrifugo_websocket_client import (
-    CentrifugoClientConfig,
-    create_websocket_handler,
-)
-from .qmt_state import QMTState
-from .qmt_mock import MockContextInfo
-from . import constants
-from .centrifugo_qmt import (
-    init,
-    process_centrifugo_messages,
-    process_signal,
-    handle_buy_signal,
-    handle_sell_signal,
-    refresh_waiting_dict,
-    refresh_bought_list,
-    refresh_timeout_orders,
-    refresh_order_status,
-)
+def __getattr__(name):
+    """Lazy import to avoid triggering asyncio import in QMT (Python 3.6 without asyncio)."""
+    _ws_names = [
+        'CentrifugoClientConfig', 'create_websocket_handler',
+    ]
+    _qmt_names = [
+        'init', 'process_centrifugo_messages', 'process_signal',
+        'handle_buy_signal', 'handle_sell_signal',
+        'refresh_waiting_dict', 'refresh_bought_list',
+        'refresh_timeout_orders', 'refresh_order_status',
+    ]
+    _other_names = ['QMTState', 'MockContextInfo', 'constants']
+    if name in _ws_names:
+        from . import centrifugo_websocket_client as _ws
+        return getattr(_ws, name)
+    if name in _qmt_names:
+        from . import centrifugo_qmt as _qmt
+        return getattr(_qmt, name)
+    if name == 'QMTState':
+        from .qmt_state import QMTState
+        return QMTState
+    if name == 'MockContextInfo':
+        from .qmt_mock import MockContextInfo
+        return MockContextInfo
+    if name == 'constants':
+        from . import constants
+        return constants
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 __all__ = [
-    # Config
     'configure',
     'get_config',
-
-    # Classes
     'CentrifugoClientConfig',
     'QMTState',
     'MockContextInfo',
-
-    # Core functions
     'init',
     'process_centrifugo_messages',
     'process_signal',
@@ -77,10 +81,6 @@ __all__ = [
     'refresh_bought_list',
     'refresh_timeout_orders',
     'refresh_order_status',
-
-    # Factory
     'create_websocket_handler',
-
-    # Constants module
     'constants',
 ]

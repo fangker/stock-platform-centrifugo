@@ -5,7 +5,6 @@ Centrifugo QMT SDK 常量定义
 集中管理所有魔法数字和配置常量，提高代码可维护性
 """
 from enum import IntEnum
-from typing import Final
 
 
 # ============================================================================
@@ -94,22 +93,22 @@ class TradeConfig:
     """交易配置常量"""
 
     # 价格调整乘数
-    BUY_PRICE_MULTIPLIER: Final[float] = 1.012    # 买入价格乘数（+1.2%）
-    SELL_PRICE_MULTIPLIER: Final[float] = 0.988   # 卖出价格乘数（-1.2%）
+    BUY_PRICE_MULTIPLIER: float = 1.012    # 买入价格乘数（+1.2%）
+    SELL_PRICE_MULTIPLIER: float = 0.988   # 卖出价格乘数（-1.2%）
 
     # 交易限制
-    MAX_AMOUNT_PER_ORDER: Final[float] = 50000.0  # 单笔最大金额（元）
-    MIN_VOLUME: Final[int] = 100                  # 最小成交量（股）
-    VOLUME_MULTIPLE: Final[int] = 100             # 成交量倍数（必须是100的整数倍）
+    MAX_AMOUNT_PER_ORDER: float = 50000.0  # 单笔最大金额（元）
+    MIN_VOLUME: int = 100                  # 最小成交量（股）
+    VOLUME_MULTIPLE: int = 100             # 成交量倍数（必须是100的整数倍）
 
     # 默认值
-    DEFAULT_PERCENTAGE: Final[float] = 100.0      # 默认交易比例（%）
-    DEFAULT_WITHDRAW_SECS: Final[int] = 10        # 默认撤单等待秒数
+    DEFAULT_PERCENTAGE: float = 100.0      # 默认交易比例（%）
+    DEFAULT_WITHDRAW_SECS: int = 10        # 默认撤单等待秒数
 
     # QMT 订单类型
-    ORDER_TYPE_BUY: Final[int] = 23               # 买入订单类型
-    ORDER_TYPE_SELL: Final[int] = 24              # 卖出订单类型
-    ORDER_MARKET: Final[int] = 11                 # 市场类型
+    ORDER_TYPE_BUY: int = 23               # 买入订单类型
+    ORDER_TYPE_SELL: int = 24              # 卖出订单类型
+    ORDER_MARKET: int = 11                 # 市场类型
 
 
 # ============================================================================
@@ -120,17 +119,17 @@ class TimeConfig:
     """时间配置常量"""
 
     # 交易时间段
-    TRADING_START: Final[str] = "091500"  # 交易开始时间
-    TRADING_END: Final[str] = "150000"    # 交易结束时间
+    TRADING_START: str = "091500"  # 交易开始时间
+    TRADING_END: str = "150000"    # 交易结束时间
 
     # 早晨缓冲期（不撤单）
-    MORNING_BUFFER_START: Final[str] = "091500"  # 早晨缓冲开始时间
-    MORNING_BUFFER_END: Final[str] = "093000"    # 早晨缓冲结束时间
+    MORNING_BUFFER_START: str = "091500"  # 早晨缓冲开始时间
+    MORNING_BUFFER_END: str = "093000"    # 早晨缓冲结束时间
 
     # 日期格式
-    DATE_FORMAT: Final[str] = "%Y-%m-%d"          # 日期格式
-    TIMESTAMP_FORMAT: Final[str] = "%Y%m%d%H%M%S"  # 时间戳格式
-    TIME_FORMAT: Final[str] = "%H%M%S"            # 时间格式
+    DATE_FORMAT: str = "%Y-%m-%d"          # 日期格式
+    TIMESTAMP_FORMAT: str = "%Y%m%d%H%M%S"  # 时间戳格式
+    TIME_FORMAT: str = "%H%M%S"            # 时间格式
 
 
 # ============================================================================
@@ -140,9 +139,9 @@ class TimeConfig:
 class ChannelPrefix:
     """频道命名前缀"""
 
-    TEST: Final[str] = "test"       # 测试频道前缀
-    TRADE: Final[str] = "trade"     # 交易频道前缀
-    SIGNAL: Final[str] = "signal"   # 信号频道前缀
+    TEST: str = "test"       # 测试频道前缀
+    TRADE: str = "trade"     # 交易频道前缀
+    SIGNAL: str = "signal"   # 信号频道前缀
 
     @classmethod
     def make_test_channel(cls, strategy_name: str) -> str:
@@ -167,8 +166,8 @@ class ChannelPrefix:
 class TradeAction:
     """交易信号动作类型"""
 
-    BUY: Final[str] = "BUY"    # 买入信号
-    SELL: Final[str] = "SELL"  # 卖出信号
+    BUY: str = "BUY"    # 买入信号
+    SELL: str = "SELL"  # 卖出信号
 
     @classmethod
     def is_valid(cls, action: str) -> bool:
@@ -183,8 +182,8 @@ class TradeAction:
 class QueueConfig:
     """消息队列配置"""
 
-    CHECK_INTERVAL: Final[float] = 0.1  # 消息队列检查间隔（秒）
-    MAX_QUEUE_SIZE: Final[int] = 1000   # 最大队列大小
+    CHECK_INTERVAL: float = 0.1  # 消息队列检查间隔（秒）
+    MAX_QUEUE_SIZE: int = 1000   # 最大队列大小
 
 
 # ============================================================================
@@ -195,16 +194,16 @@ class WebSocketConfig:
     """WebSocket 连接配置"""
 
     # 重连配置
-    RECONNECT_DELAY: Final[int] = 5      # 重连延迟（秒）
-    MAX_RECONNECT_ATTEMPTS: Final[int] = 10  # 最大重连次数
+    RECONNECT_DELAY: int = 5      # 重连延迟（秒）
+    MAX_RECONNECT_ATTEMPTS: int = 10  # 最大重连次数
 
     # 心跳配置
-    PING_INTERVAL: Final[int] = 30       # 心跳间隔（秒）
-    PING_TIMEOUT: Final[int] = 10        # 心跳超时（秒）
+    PING_INTERVAL: int = 30       # 心跳间隔（秒）
+    PING_TIMEOUT: int = 10        # 心跳超时（秒）
 
     # 连接超时
-    CONNECT_TIMEOUT: Final[int] = 10     # 连接超时（秒）
-    READ_TIMEOUT: Final[int] = 60        # 读取超时（秒）
+    CONNECT_TIMEOUT: int = 10     # 连接超时（秒）
+    READ_TIMEOUT: int = 60        # 读取超时（秒）
 
 
 # ============================================================================
@@ -215,8 +214,8 @@ class LogConfig:
     """日志配置"""
 
     # 日志格式
-    FORMAT: Final[str] = '%(asctime)s | %(levelname)-8s | %(name)s | %(message)s'
-    DATE_FORMAT: Final[str] = '%Y-%m-%d %H:%M:%S'
+    FORMAT: str = '%(asctime)s | %(levelname)-8s | %(name)s | %(message)s'
+    DATE_FORMAT: str = '%Y-%m-%d %H:%M:%S'
 
     # 日志级别
     DEBUG = 10
@@ -247,21 +246,21 @@ class QMTApi:
     """QMT API 相关常量"""
 
     # 市场代码
-    MARKET_SH: Final[str] = "SH"  # 上海市场
-    MARKET_SZ: Final[str] = "SZ"  # 深圳市场
+    MARKET_SH: str = "SH"  # 上海市场
+    MARKET_SZ: str = "SZ"  # 深圳市场
 
     # 数据类型
-    DATA_TYPE_STOCK: Final[str] = "stock"
-    DATA_TYPE_OPTION: Final[str] = "option"
-    DATA_TYPE_FUTURE: Final[str] = "future"
+    DATA_TYPE_STOCK: str = "stock"
+    DATA_TYPE_OPTION: str = "option"
+    DATA_TYPE_FUTURE: str = "future"
 
     # 查询类型
-    QUERY_ORDER: Final[str] = "order"       # 订单查询
-    QUERY_POSITION: Final[str] = "position"  # 持仓查询
-    QUERY_ACCOUNT: Final[str] = "account"    # 账户查询
+    QUERY_ORDER: str = "order"       # 订单查询
+    QUERY_POSITION: str = "position"  # 持仓查询
+    QUERY_ACCOUNT: str = "account"    # 账户查询
 
     # 板块名称
-    SECTOR_HSA: Final[str] = "沪深A股"       # 沪深A股板块
+    SECTOR_HSA: str = "沪深A股"       # 沪深A股板块
 
 
 # ============================================================================

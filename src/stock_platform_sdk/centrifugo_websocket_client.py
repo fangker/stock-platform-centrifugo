@@ -329,7 +329,8 @@ class QMTCentrifugoWebSocketHandler(CentrifugoWebSocketHandler):
 def create_websocket_handler(
     access_key: str,
     secret_key: str,
-    strategy_name: str
+    strategy_name: str,
+    config: CentrifugoClientConfig = None
 ) -> QMTCentrifugoWebSocketHandler:
     """
     创建 WebSocket 处理器
@@ -338,10 +339,13 @@ def create_websocket_handler(
         access_key: 访问密钥（必需）
         secret_key: 密钥（必需）
         strategy_name: 策略名称（必需）
+        config: 完整配置对象（可选，如传入则忽略其他参数）
 
     Returns:
         QMTCentrifugoWebSocketHandler: WebSocket 处理器实例
     """
+    if config:
+        return QMTCentrifugoWebSocketHandler(config)
     config = CentrifugoClientConfig(
         access_key=access_key,
         secret_key=secret_key,
