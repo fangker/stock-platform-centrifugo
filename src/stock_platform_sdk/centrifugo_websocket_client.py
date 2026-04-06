@@ -57,7 +57,6 @@ except ImportError:
 # 导入事件处理器
 from .handlers import ClientEventLoggerHandler, SubscriptionEventLoggerHandler
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
