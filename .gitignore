@@ -6,3 +6,4 @@ build/
 .eggs/
 *.tar.gz
 *.whl
+source/
