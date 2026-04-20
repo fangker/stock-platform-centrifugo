@@ -1,19 +1,20 @@
 """
-Centrifugo 配置常量
+SDK 配置
 """
 import os
 
-# 后端服务器配置（用于获取 JWT）
-CENTRIFUGO_BACKEND_URL = os.getenv(
-    "CENTRIFUGO_BACKEND_URL",
+BACKEND_URL = os.getenv(
+    "STOCK_PLATFORM_BACKEND_URL",
     "http://localhost:8888"
 )
 
-# Centrifugo WebSocket 服务器
-CENTRIFUGO_CENTRIFUGO_URL = os.getenv(
-    "CENTRIFUGO_CENTRIFUGO_URL",
-    "http://localhost:8000"
-)
 
-# 默认请求超时时间（秒）
-CENTRIFUGO_TIMEOUT = 10
+class SDKConfig:
+    """SDK 配置"""
+
+    def __init__(self, access_key, secret_key, strategy_name, backend_url=None):
+        self.access_key = access_key
+        self.secret_key = secret_key
+        self.strategy_name = strategy_name
+        self.backend_url = backend_url or BACKEND_URL
+        self.token = None

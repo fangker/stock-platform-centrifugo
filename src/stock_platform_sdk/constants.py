@@ -1,8 +1,6 @@
 # centrifugo/constants.py
 """
-Centrifugo QMT SDK 常量定义
-
-集中管理所有魔法数字和配置常量，提高代码可维护性
+交易相关常量定义
 """
 from enum import IntEnum
 
@@ -29,6 +27,7 @@ class OrderStatus(IntEnum):
     - 86: 已确认
     - 255: 未知
     """
+
     SUBMITTING = 48           # 已报
     PARTIAL_FILLED = 49       # 部成
     ACCEPTED = 50             # 已受理
@@ -187,26 +186,6 @@ class QueueConfig:
 
 
 # ============================================================================
-# WebSocket 配置
-# ============================================================================
-
-class WebSocketConfig:
-    """WebSocket 连接配置"""
-
-    # 重连配置
-    RECONNECT_DELAY: int = 5      # 重连延迟（秒）
-    MAX_RECONNECT_ATTEMPTS: int = 10  # 最大重连次数
-
-    # 心跳配置
-    PING_INTERVAL: int = 30       # 心跳间隔（秒）
-    PING_TIMEOUT: int = 10        # 心跳超时（秒）
-
-    # 连接超时
-    CONNECT_TIMEOUT: int = 10     # 连接超时（秒）
-    READ_TIMEOUT: int = 60        # 读取超时（秒）
-
-
-# ============================================================================
 # 日志配置
 # ============================================================================
 
@@ -282,9 +261,9 @@ class ErrorMessages:
     ALREADY_SOLD = "股票已在卖出列表中"
 
     # 连接错误
-    CONNECTION_FAILED = "WebSocket 连接失败"
+    CONNECTION_FAILED = "HTTP 连接失败"
     AUTH_FAILED = "认证失败"
-    SUBSCRIBE_FAILED = "订阅频道失败"
+    QUERY_FAILED = "查询信号失败"
 
     # 配置错误
     CONFIG_NOT_INITIALIZED = "配置未初始化，请先调用 configure()"
@@ -351,7 +330,6 @@ __all__ = [
     'TradeConfig',
     'TimeConfig',
     'QueueConfig',
-    'WebSocketConfig',
     'LogConfig',
     'ChannelPrefix',
     'TradeAction',

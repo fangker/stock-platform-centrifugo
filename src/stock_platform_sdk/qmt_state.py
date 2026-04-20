@@ -3,15 +3,14 @@ QMT 策略状态管理类
 
 相当于 qmt.py 中的 A 对象，用于管理策略运行时的所有状态
 """
-import pandas as pd
 
 
 class QMTState:
     """策略状态管理类"""
 
     def __init__(self):
-        #持仓分析数据
-        self.pa = pd.DataFrame(index=[], columns=[])
+        # 持仓分析数据（延迟初始化，避免导入时触发 pandas）
+        self.pa = None
 
         # 日期相关
         self.last_day = ''
